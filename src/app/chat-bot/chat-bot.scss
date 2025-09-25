@@ -1,0 +1,95 @@
+@use "bootstrap/config" as *;
+
+.chat-shell {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-body {
+  flex-grow: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-left: 13% !important;
+  padding-right: 13% !important;
+  scroll-behavior: smooth;
+}
+
+.empty-chat {
+  height: 100%;
+  align-items: center;
+}
+
+.send-btn {
+  width: 44px;
+  height: 44px;
+  background: $violet-60;
+}
+
+.user-prompt {
+  background-color: $violet-10;
+  max-width: 60%;
+}
+
+.bot-response {
+  max-width: 60%;
+}
+
+.fixed-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 26% !important;
+  width: 63% !important;
+}
+
+.middle-input {
+  position: fixed;
+  left: 26% !important;
+  width: 63% !important;
+}
+
+@media (max-width: 1400px) and (min-width: 1280px) {
+  .fixed-bottom {
+    left: 30% !important;
+    width: 63% !important;
+  }
+}
+
+@media (min-width: 1280px) and (max-width: 1400px) {
+  .chat-body {
+    padding-left: 10% !important;
+    padding-right: 10% !important;
+  }
+}
+@media (max-width: 1400px) and (min-width: 1280px) {
+  .middle-input {
+    left: 30% !important;
+  }
+}
+
+.spinner-grow {
+  color: $violet-60;
+}
+
+.btn-input {
+  background-color: #f0e2fa80;
+}
+
+.text {
+  font-family: "Anonymous Pro", monospace;
+}
+
+.heading {
+  background: linear-gradient(
+    110.71deg,
+    #6a2991 15.87%,
+    #a24ae7 60.65%,
+    #acc532 70.14%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 100%;
+}

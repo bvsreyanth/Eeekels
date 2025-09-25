@@ -1,0 +1,93 @@
+<div class="chat-shell d-flex flex-column">
+  <div #chatWin class="chat-body flex-grow-1 overflow-auto p-4">
+    @if (previousChats.length === 0) {
+      <div class="empty-chat d-flex flex-column justify-content-center align-items-center text-center text-muted h-100 w-100 pb-5 mb">
+        <div class="text mb-4">
+          <h3 class="heading">Hello, {{name}}</h3>
+          <h3 class="heading">Ready to uncover hidden threats today?</h3>
+        </div>
+        <div class="w-75 mb-4">
+          <form (ngSubmit)="onSubmit()" #chatform="ngForm" autocomplete="off">
+            <div class="input-group rounded-pill chat-input shadow pt-1 pb-1 ps-3 pe-3 bg-white middle-input">
+              <input class="rounded-pill flex-grow-1 px-3 border-0"
+                     style="outline: none;"
+                     type="text"
+                     placeholder="Enter your prompt here"
+                     [(ngModel)]="prompt"
+                     name="prompt"
+                     required
+                     [disabled]="promptDisabled"
+                     autocomplete="off" />
+              <button class="rounded-circle send-btn d-flex align-items-center justify-content-center border"
+                      [disabled]="chatform.invalid || promptDisabled"
+                      type="submit">
+                <i class="bi bi-arrow-up-short fs-3 text-white"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="quick-buttons d-flex flex-column flex-md-row justify-content-center w-100 gap-3 pt-5">
+          <button class="btn btn-input flex-fill"
+                  (click)="sendQuickPrompt('Hey Discover, Check for any unusual login attempts in the past 24 hours.')">
+            Hey Discover, Check for any unusual login attempts in the past 24 hours.
+          </button>
+          <button class="btn btn-input flex-fill"
+                  (click)="sendQuickPrompt('Check for any unusual login attempts in the past 24 hours.')">
+            Check for any unusual login attempts in the past 24 hours.
+          </button>
+          <button class="btn btn-input flex-fill"
+                  (click)="sendQuickPrompt('Give me a Summary of threats.')">
+            Give me a Summary of threats.
+          </button>
+          <button class="btn btn-input flex-fill"
+                  (click)="sendQuickPrompt('Give me the activities from the last 5 days.')">
+            Give me the activities from the last 5 days.
+          </button>
+        </div>
+      </div>
+    }
+    @for (chat of previousChats; track chat) {
+      <div class="chat-row w-100 d-flex flex-column align-items-end">
+        @if (chat.prompt) {
+          <div class="user-prompt d-inline-block rounded p-2 mb-1">
+            {{ chat.prompt }}
+          </div>
+        }
+        @if (chat.response || chat.isLoading) {
+          <div class="bot-response d-inline-block rounded p-2 mb-1 align-self-start">
+            @if (chat.isLoading) {
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="spinner-grow fs-2">
+                  <span class="visually-hidden"></span>
+                </div>
+              </div>
+            } @else {
+              <div [innerHTML]="chat.response"></div>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+  <div class="input-box">
+    <form (ngSubmit)="onSubmit()" #chatform="ngForm" autocomplete="off">
+      <div class="input-group rounded-pill chat-input w-75 mb-3 shadow pt-1 pb-1 ps-3 pe-3 bg-white"
+           [ngClass]="{ 'fixed-bottom': previousChats.length > 0, 'middle-input': previousChats.length === 0 }">
+        <input class="rounded-pill flex-grow-1 px-3 border-0"
+               style="outline: none;"
+               type="text"
+               placeholder="Enter your prompt here"
+               [(ngModel)]="prompt"
+               name="prompt"
+               required
+               [disabled]="promptDisabled"
+               autocomplete="off" />
+        <button class="rounded-circle send-btn d-flex align-items-center justify-content-center border"
+                [disabled]="chatform.invalid || promptDisabled"
+                type="submit">
+          <i class="bi bi-arrow-up-short fs-3 text-white"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

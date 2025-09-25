@@ -1,0 +1,353 @@
+<div class="modal fade show d-block"
+     *ngIf="showModal"
+     tabindex="-1"
+     style="background: rgba(0, 0, 0, 0.5);">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Log Source</h5>
+        <button aria-label="Close"
+                type="button"
+                class="btn-close"
+                (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="successMessage"
+             class="alert alert-success"
+             role="alert">
+          {{ successMessage }}
+        </div>
+        <div *ngIf="errorMessage"
+             class="alert alert-danger"
+             role="alert">
+          {{ errorMessage }}
+        </div>
+
+        <div class="mb-3">
+          <h3 class="fw-semibold mb-2">Source Type</h3>
+          <div class="d-flex gap-2">
+            <button class="btn btn-purple-outline"
+                    [ngClass]="{ 'active': connectionType === 'api' }"
+                    (click)="selectConnection('api')">
+              <i class="bi bi-link-45deg"></i> API Connection
+            </button>
+            <button class="btn btn-purple-outline"
+                    [ngClass]="{ 'active': connectionType === 'file' }"
+                    (click)="selectConnection('file')">
+              <i class="bi bi-upload"></i> File Upload
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="connectionType === 'api'">
+          <h3 class="fw-semibold mb-2">Select Provider</h3>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <button class="btn provider-btn w-100"
+                      [ngClass]="{ 'active ': selectedProvider === 'SentinelOne' }"
+                      (click)="selectProvider('SentinelOne')">
+                <img src="assets\SentinalOne.svg"
+                     alt="API"
+                     width="16"
+                     height="16"
+                     class="me-2 mb-1" />
+                Sentinel One
+              </button>
+            </div>
+            <div class="col-6">
+              <button class="btn provider-btn w-100"
+                      [ngClass]="{ 'active': selectedProvider === 'Fortinet' }"
+                      (click)="selectProvider('Fortinet')">
+                <img src="assets\Fortianalyser.svg"
+                     alt="API"
+                     width="16"
+                     height="16"
+                     class="me-2" />
+                Forti Analyzer
+              </button>
+            </div>
+            <div class="col-6">
+              <button class="btn provider-btn w-100"
+                      [ngClass]="{ 'active': selectedProvider === 'Sentinel' }"
+                      (click)="selectProvider('Sentinel')">
+                <img src="assets\MicrosoftDefender.svg"
+                     alt="API"
+                     width="16"
+                     height="16"
+                     class="me-2" />
+                Microsoft Defender
+              </button>
+            </div>
+            <div class="col-6">
+              <button class="btn provider-btn w-100"
+                      [ngClass]="{ 'active ': selectedProvider === 'Splunk' }"
+                      (click)="selectProvider('Splunk')">
+                <img src="assets\Splunk.svg"
+                     alt="API"
+                     width="16"
+                     height="16"
+                     class="me-2" />
+                Splunk
+              </button>
+            </div>
+          </div>
+
+          <form *ngIf="selectedProvider === 'SentinelOne'"
+                [formGroup]="apiForm">
+            <div class="text-muted p-3 border rounded bg-light">
+              <h6 class="fw-semibold">Sentinel One</h6>
+
+              <div class="mb-2">
+                <label for="sourcename">Source Name <span class="required-star">*</span></label>
+                <input id="sourcename"
+                       type="text"
+                       class="form-control"
+                       placeholder="Enter"
+                       formControlName="displayName" />
+                <div *ngIf="f['displayName'].touched && f['displayName'].invalid"
+                     class="text-danger">
+                  Source name is required
+                </div>
+              </div>
+
+              <div class="mb-2">
+                <label for="apikey">API Key <span class="required-star">*</span></label>
+                <input id="apikey"
+                       type="text"
+                       class="form-control"
+                       placeholder="Enter your API key"
+                       formControlName="apiKey" />
+                <div *ngIf="f['apiKey'].touched && f['apiKey'].invalid"
+                     class="text-danger">
+                  API Key is required
+                </div>
+              </div>
+
+              <div class="mb-2">
+                <label for="baseurl">Base URL <span class="required-star">*</span></label>
+                <input id="baseurl"
+                       type="text"
+                       class="form-control"
+                       placeholder="https://api.example.com/logs"
+                       formControlName="baseUrl" />
+                <div *ngIf="f['baseUrl'].touched && f['baseUrl'].invalid"
+                     class="text-danger">
+                  Base URL is required
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <!-- Microsoft Defender (Sentinel) -->
+          <form *ngIf="selectedProvider === 'Sentinel'"
+                [formGroup]="apiForm">
+            <div class="text-muted p-3 border rounded bg-light">
+              <h6 class="fw-semibold">Microsoft Defender</h6>
+
+              <div class="mb-2">
+                <label for="sourcename">Source Name <span class="required-star">*</span></label>
+                <input id="sourcename"
+                       type="text"
+                       class="form-control"
+                       placeholder="Enter"
+                       formControlName="displayName" />
+                <div *ngIf="f['displayName'].touched && f['displayName'].invalid"
+                     class="text-danger">
+                  Source name is required
+                </div>
+              </div>
+
+              <div class="mb-2">
+                <label for="apikey">API Key <span class="required-star">*</span></label>
+                <input id="apikey"
+                       type="text"
+                       class="form-control"
+                       placeholder="Enter your API key"
+                       formControlName="apiKey" />
+                <div *ngIf="f['apiKey'].touched && f['apiKey'].invalid"
+                     class="text-danger">
+                  API Key is required
+                </div>
+              </div>
+
+              <div class="mb-2">
+                <label for="baseurl">Base URL <span class="required-star">*</span></label>
+                <input id="baseurl"
+                       type="text"
+                       class="form-control"
+                       placeholder="https://api.example.com/logs"
+                       formControlName="baseUrl" />
+                <div *ngIf="f['baseUrl'].touched && f['baseUrl'].invalid"
+                     class="text-danger">
+                  Base URL is required
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <!-- Fortinet -->
+          <form *ngIf="selectedProvider === 'Fortinet'"
+                [formGroup]="apiForm">
+            <div class="text-muted p-3 border rounded bg-light">
+              <h6 class="fw-semibold">Forti Analyzer</h6>
+
+              <div class="mb-2">
+                <label for="sourcename">Source Name <span class="required-star">*</span></label>
+                <input id="sourcename"
+                       type="text"
+                       class="form-control"
+                       placeholder="Enter"
+                       formControlName="displayName" />
+                <div *ngIf="f['displayName'].touched && f['displayName'].invalid"
+                     class="text-danger">
+                  Source name is required
+                </div>
+              </div>
+
+              <div class="mb-2">
+                <label for="username">Username <span class="required-star">*</span></label>
+                <input id="username"
+                       type="text"
+                       class="form-control"
+                       placeholder="Enter Username"
+                       formControlName="username" />
+                <div *ngIf="f['username'].touched && f['username'].invalid"
+                     class="text-danger">
+                  Username is required
+                </div>
+              </div>
+
+              <div class="mb-2">
+                <label for="password">Password <span class="required-star">*</span></label>
+                <input id="password"
+                       type="password"
+                       class="form-control"
+                       placeholder="Enter Password"
+                       formControlName="password" />
+                <div *ngIf="f['password'].touched && f['password'].invalid"
+                     class="text-danger">
+                  Password is required
+                </div>
+              </div>
+
+
+              <div class="mb-2">
+                <label for="baseurl">Base URL <span class="required-star">*</span></label>
+                <input id="baseurl"
+                       type="text"
+                       class="form-control"
+                       placeholder="https://api.example.com/logs"
+                       formControlName="baseUrl" />
+                <div *ngIf="f['baseUrl'].touched && f['baseUrl'].invalid"
+                     class="text-danger">
+                  Base URL is required
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <!-- Splunk -->
+          <form *ngIf="selectedProvider === 'Splunk'"
+                [formGroup]="apiForm">
+            <div class="text-muted p-3 border rounded bg-light">
+              <h6 class="fw-semibold">Splunk</h6>
+
+              <div class="mb-2">
+                <label for="sourcename">Source Name <span class="required-star">*</span></label>
+                <input id="sourcename"
+                       type="text"
+                       class="form-control"
+                       placeholder="Enter"
+                       formControlName="displayName" />
+                <div *ngIf="f['displayName'].touched && f['displayName'].invalid"
+                     class="text-danger">
+                  Source name is required
+                </div>
+              </div>
+
+              <div class="mb-2">
+                <label for="apikey">API Key <span class="required-star">*</span></label>
+                <input id="apikey"
+                       type="text"
+                       class="form-control"
+                       placeholder="Enter your API key"
+                       formControlName="apiKey" />
+                <div *ngIf="f['apiKey'].touched && f['apiKey'].invalid"
+                     class="text-danger">
+                  API Key is required
+                </div>
+              </div>
+
+              <div class="mb-2">
+                <label for="baseurl">Base URL <span class="required-star">*</span></label>
+                <input id="baseurl"
+                       type="text"
+                       class="form-control"
+                       placeholder="https://api.example.com/logs"
+                       formControlName="baseUrl" />
+                <div *ngIf="f['baseUrl'].touched && f['baseUrl'].invalid"
+                     class="text-danger">
+                  Base URL is required
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <!-- File Upload -->
+        <div *ngIf="connectionType === 'file'"
+             class="text-muted p-3 border rounded bg-light">
+          <form>
+            <h6 class="fw-semibold">File Upload</h6>
+
+            <div class="mb-2">
+              <label for="sourcename">Source Name <span class="required-star">*</span></label>
+              <input id="sourcename"
+                     type="text"
+                     class="form-control"
+                     required
+                     placeholder="Enter"
+                     [(ngModel)]="fileUpload.sourceName"
+                     name="fileUploadSourceName" />
+            </div>
+
+            <div class="mb-2">
+              <label for="logfile">Upload Log File <span class="required-star">*</span></label>
+              <input id="logfile"
+                     type="file"
+                     class="form-control"
+                     (change)="onFileSelected($event)"
+                     name="fileUploadFile" />
+            </div>
+
+            <div class="mb-2"
+                 *ngIf="selectedFile">
+              <label for="format">File Format <span class="required-star">*</span></label>
+              <select class="form-select"
+                      [(ngModel)]="fileUpload.format"
+                      name="fileFormat"
+                      required>
+                <option value=""
+                        disabled
+                        selected>Select file format</option>
+                <option value="csv">CSV</option>
+                <option value="pdf">PDF</option>
+              </select>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary"
+                (click)="closeModal()">Cancel</button>
+        <button class="btn submit-btn"
+                (click)="addSource()"
+                [disabled]="apiForm.invalid || isLoading">
+          <span *ngIf="isLoading"
+                class="spinner-border spinner-border-sm"
+                aria-hidden="true"></span>
+          {{ isLoading ? 'Adding...' : 'Add Source' }}
+        </button>
+      </div>
+
+    </div>
+  </div>

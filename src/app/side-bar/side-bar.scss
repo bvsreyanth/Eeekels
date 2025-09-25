@@ -1,0 +1,61 @@
+@use "bootstrap/config" as *;
+
+.sidebar {
+  width: 300px;
+  overflow: visible !important;
+  height: 93vh;
+}
+
+.btn-purple {
+  background-color: $violet-60;
+  color: $white;
+  border-radius: 10px;
+  width: 30px;
+  height: 30px;
+  transition: background-color 0.2s ease;
+  &:hover {
+    background-color: $violet-20;
+  }
+}
+
+.side-nav {
+  background-color: #f0eaf480 !important;
+}
+
+.chat-item {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-size: 0.9rem;
+  padding: 2px;
+  border-radius: 6px;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.chat-item:hover {
+  background-color: $violet-20;
+}
+
+.chat-item.active {
+  background-color: $violet-20;
+  font-weight: 500;
+}
+
+.chat-item .hover-icon {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.chat-item:hover .hover-icon {
+  opacity: 2;
+}
+
+.btn {
+  border: none;
+}
+
+.chat-item.active-chat {
+  background-color: $violet-20;
+}

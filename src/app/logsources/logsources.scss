@@ -1,0 +1,38 @@
+@use "bootstrap/config" as *;
+
+.icon-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn i {
+  color: $grey-50;
+  font-size: 16px;
+  transition: color 0.2s ease;
+}
+
+.refresh-btn i:hover {
+  color: $grey-70;
+}
+
+.delete-btn i:hover {
+  color: $red-60;
+}
+.cardpad {
+  background-color: $violet-60;
+  color: $white;
+}
+.btn-source {
+  background-color: $violet-60;
+  color: $white;
+}
+.spinner-grow {
+  color: $violet-60;
+}
+.bg-body-tertiary {
+  min-height: 93vh;
+}

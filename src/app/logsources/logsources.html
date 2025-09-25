@@ -1,0 +1,114 @@
+@if (loading) {
+<div class="d-flex justify-content-center align-items-center"
+     style="min-height: 70vh;">
+  <output class="spinner-grow">
+    <span class="visually-hidden">Loading...</span>
+  </output>
+</div>
+} @else {
+<app-add-logsources #logsourceFormModal
+                    (logSourceAdded)="onLogSourceAdded()"
+                    (modalClosed)="onModalClosed()">
+</app-add-logsources>
+<div class="bg-body-tertiary py-4">
+  <div class="container-fluid ps-md-5 pe-md-5">
+    <div class="row align-items-start py-4">
+      <div class="col-md-8 mt-4">
+        <h2 class="fw-bold">Log Sources</h2>
+        <p class="text-muted">
+          Manage your connected log sources and data feeds
+        </p>
+      </div>
+      <div class="col-md-4 text-md-end mt-5">
+        <button class="btn btn-source cardpad"
+                (click)="openModal()">
+          <i class="bi bi-plus"></i> Add Source
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid ps-md-5 pe-md-5">
+    @if (logSources.length > 0) {
+    <div class="row">
+      @for (log of logSources; track log) {
+      <div class="col-md-6 col-lg-4 mb-4 px-2">
+        <div class="card h-100 shadow-sm border rounded-3 p-4">
+          <div class="position-absolute top-0 end-0 mt-3 me-3 d-flex gap-3">
+            <button class="icon-btn refresh-btn"
+                    title="Refresh">
+              <i class="bi bi-arrow-repeat"></i>
+            </button>
+            <button class="icon-btn delete-btn"
+                    title="Delete"
+                    (click)="onDeleteLogSource(log.publicId!)">
+              <i class="bi bi-trash3"></i>
+            </button>
+          </div>
+          <div class="mb-3">
+            <h5 class="fw-semibold mb-1">{{ log.displayName }}</h5>
+            <div class="d-flex align-items-center gap-2">
+              @if (log.status === 'Connected') {
+              <i class="bi bi-check2-circle text-success"></i>
+              }
+              @if (log.status === 'Error') {
+              <i class="bi bi-x-circle text-danger"></i>
+              }
+              @if (log.status === 'Pending') {
+              <i class="bi bi-hourglass-split text-warning"></i>
+              }
+              <span class="text-muted">{{ log.status }}</span>
+            </div>
+          </div>
+          <ul class="list-unstyled mb-3 small">
+            <li class="d-flex justify-content-between mb-2">
+              <span>Type:</span>
+              <span class="fw-semibold text-capitalize">{{ log.type }}</span>
+            </li>
+            <li class="d-flex justify-content-between mb-2">
+              <span>Entries:</span>
+              <span class="fw-semibold">{{ log.entries ?? 'N/A' }}</span>
+            </li>
+            @if (log.lastSync) {
+            <li class="d-flex justify-content-between">
+              <span>Last Sync:</span>
+              <span class="fw-semibold">{{ log.lastSync }}</span>
+            </li>
+            }
+          </ul>
+          <div class="bg-light p-3 rounded-2 small mb-3">
+            @if (log.baseUrl) {
+            <div class="text-truncate mb-1">
+              <strong>BaseUrl: </strong>
+              <span class="text-muted">{{ log.baseUrl }}</span>
+            </div>
+            }
+            @if (log.provider) {
+            <div class="text-truncate mb-1">
+              <strong>Provider:</strong>
+              <span class="text-muted"> {{ log.provider }} </span>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+    } @else {
+    <div class="text-center px-3 py-5">
+      <div class="icon-wrapper">
+        <i class="bi bi-database fs-2"></i>
+      </div>
+      <h5 class="fw-semibold mt-3">No log sources configured</h5>
+      <p class="text-muted">
+        Add your first log source to start correlating security events <br />
+        and analyzing threats
+      </p>
+      <button class="btn btn-primary mt-1"
+              (click)="openModal()">
+        <i class="bi bi-plus"></i> Add Source
+      </button>
+    </div>
+    }
+  </div>
+</div>
+}
